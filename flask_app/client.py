@@ -28,7 +28,7 @@ class Stock(object) :
 class StockClient ():
 
     def search (self, stock_ticker):
-        stock = yf.Ticker(stock_ticker)
+        stock = yf.Ticker(stock_ticker.upper())
         data = stock.info
         if data['logo_url'] == '' :
             raise ValueError('Invalid ticker')

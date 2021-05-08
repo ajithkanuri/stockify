@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
 from .. import stock_client
-from ..forms import MovieReviewForm, SearchForm
+from ..forms import StockReviewForm, SearchForm
 from ..models import User, Review
 from ..utils import current_time
 
@@ -13,20 +13,21 @@ def index():
     form = SearchForm()
 
     if form.validate_on_submit():
-        return redirect(url_for("stocks.stock_detail", symbol=form.search_query.data))
+        return redirect(url_for("stocks.stock_detail", symbol=form.search_query.data.upper()))
 
     return render_template("index.html", form=form)
 
 
 @stocks.route("/stock/<symbol>", methods=["GET", "POST"])
 def stock_detail(symbol):
+    symbol = symbol.upper()
     try:
         result = stock_client.search(symbol)
     except ValueError as e:
         flash(str(e))
         return redirect(url_for("users.login"))
 
-    form = MovieReviewForm()
+    form = StockReviewForm()
     if form.validate_on_submit() and current_user.is_authenticated:
         review = Review(
             commenter=current_user._get_current_object(),

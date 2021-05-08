@@ -30,7 +30,7 @@ import base64
 from . import bcrypt, movie_client
 from .forms import (
     SearchForm,
-    MovieReviewForm,
+    StockReviewForm,
     RegistrationForm,
     LoginForm,
     UpdateUsernameForm,

@@ -18,8 +18,8 @@
                     <span class="float-right">
                         <small>{{ review.date }}</small>
                     </span>
-                    <strong>For: <a href="{{ url_for('movies.movie_detail', movie_id=review.imdb_id) }}">
-                            {{ review.movie_title }}
+                    <strong>For: <a href="{{ url_for('stocks.stock_detail', symbol=review.symbol) }}">
+                            {{ review.symbol }}
                         </a>
                     </strong>
                     <p>

@@ -16,16 +16,16 @@ from datetime import datetime
 import os
 
 # local
-from .client import MovieClient
+from .client import StockClient
 
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-movie_client = MovieClient(os.environ.get("OMDB_API_KEY"))
+stock_client = StockClient()
 
 from .users.routes import users
-from .movies.routes import movies
+from .stocks.routes import stocks
 
 def page_not_found(e):
     return render_template("404.html"), 404
@@ -43,7 +43,7 @@ def create_app(test_config=None):
     bcrypt.init_app(app)
 
     app.register_blueprint(users)
-    app.register_blueprint(movies)
+    app.register_blueprint(stocks)
 
     app.register_error_handler(404, page_not_found)
 

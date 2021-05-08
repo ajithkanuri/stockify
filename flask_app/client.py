@@ -1,107 +1,45 @@
-import requests
+import yfinance as yf
 
+class Stock(object) :
+    def __init__(self, stock_json):
+        self.symbol = stock_json["symbol"]
+        self.name = stock_json["shortName"]
+        self.long_business_summary = stock_json["longBusinessSummary"]
+        self.sector = stock_json["sector"]
+        self.industry = stock_json["industry"]
+        self.market_cap = stock_json['marketCap']
 
-class Movie(object):
-    def __init__(self, omdb_json, detailed=False):
-        if detailed:
-            self.genres = omdb_json["Genre"]
-            self.director = omdb_json["Director"]
-            self.actors = omdb_json["Actors"]
-            self.plot = omdb_json["Plot"]
-            self.awards = omdb_json["Awards"]
+        self.open = stock_json["open"]
+        self.previous_close = stock_json["previousClose"]
+        self.regular_market_day_high = stock_json['regularMarketDayHigh']
+        self.regular_market_day_low = stock_json['regularMarketDayLow']
+        self.dayHigh = stock_json['dayHigh']
+        self.dayLow = stock_json['dayLow']
 
-        self.title = omdb_json["Title"]
-        self.year = omdb_json["Year"]
-        self.imdb_id = omdb_json["imdbID"]
-        self.type = "Movie"
-        self.poster_url = omdb_json["Poster"]
+        self.last_dividend_value = stock_json["lastDividendValue"]
+        self.divdend_rate = stock_json['dividendRate']
+        self.profitMargins = stock_json['profitMargins']
 
-    def __repr__(self):
-        return self.title
+        self.logo_url = stock_json['logo_url']
+    
+    def __str__(self):
+        return f"ticker: {self.symbol}, name: {self.name}, open: {self.open}, logo: {self.logo_url}"
 
+class StockClient ():
 
-class MovieClient(object):
-    def __init__(self, api_key):
-        self.sess = requests.Session()
-        self.base_url = f"http://www.omdbapi.com/?apikey={api_key}&r=json&type=movie&"
+    def search (self, stock_ticker):
+        stock = yf.Ticker(stock_ticker)
+        data = stock.info
 
-    def search(self, search_string):
-        """
-        Searches the API for the supplied search_string, and returns
-        a list of Media objects if the search was successful, or the error response
-        if the search failed.
-
-        Only use this method if the user is using the search bar on the website.
-        """
-        search_string = "+".join(search_string.split())
-        page = 1
-
-        search_url = f"s={search_string}&page={page}"
-
-        resp = self.sess.get(self.base_url + search_url)
-
-        if resp.status_code != 200:
-            raise ValueError(
-                "Search request failed; make sure your API key is correct and authorized"
-            )
-
-        data = resp.json()
-
-        if data["Response"] == "False":
-            raise ValueError(f'[ERROR]: Error retrieving results: \'{data["Error"]}\' ')
-
-        search_results_json = data["Search"]
-        remaining_results = int(data["totalResults"])
-
-        result = []
-
-        ## We may have more results than are first displayed
-        while remaining_results != 0:
-            for item_json in search_results_json:
-                result.append(Movie(item_json))
-                remaining_results -= len(search_results_json)
-            page += 1
-            search_url = f"s={search_string}&page={page}"
-            resp = self.sess.get(self.base_url + search_url)
-            if resp.status_code != 200 or resp.json()["Response"] == "False":
-                break
-            search_results_json = resp.json()["Search"]
-
-        return result
-
-    def retrieve_movie_by_id(self, imdb_id):
-        """
-        Use to obtain a Movie object representing the movie identified by
-        the supplied imdb_id
-        """
-        movie_url = self.base_url + f"i={imdb_id}&plot=full"
-
-        resp = self.sess.get(movie_url)
-
-        if resp.status_code != 200:
-            raise ValueError(
-                "Search request failed; make sure your API key is correct and authorized"
-            )
-
-        data = resp.json()
-
-        if data["Response"] == "False":
-            raise ValueError(f'Error retrieving results: \'{data["Error"]}\' ')
-
-        movie = Movie(data, detailed=True)
-
-        return movie
+        return Stock(data)
 
 
 ## -- Example usage -- ###
 if __name__ == "__main__":
     import os
 
-    client = MovieClient(os.environ.get("OMDB_API_KEY"))
+    client = StockClient()
 
-    movies = client.search("guardians")
+    stock = client.search("MSFT")
 
-    for movie in movies:
-        print(movie)
-
-    print(len(movies))
+    print(stock)

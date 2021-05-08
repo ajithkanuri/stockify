@@ -30,7 +30,8 @@ class StockClient ():
     def search (self, stock_ticker):
         stock = yf.Ticker(stock_ticker)
         data = stock.info
-
+        if data['logo_url'] == '' :
+            raise ValueError('Invalid ticker')
         return Stock(data)
 
 
@@ -40,6 +41,6 @@ if __name__ == "__main__":
 
     client = StockClient()
 
-    stock = client.search("MSFT")
+    stock = client.search("poop")
 
     print(stock)

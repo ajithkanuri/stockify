@@ -10,7 +10,6 @@ import base64
 def load_user(user_id):
     return User.objects(username=user_id).first()
 
-
 class User(db.Document, UserMixin):
     username = db.StringField(required=True, unique=True)
     email = db.EmailField(required=True, unique=True)
@@ -25,5 +24,5 @@ class Review(db.Document):
     commenter = db.ReferenceField(User, required=True)
     content = db.StringField(required=True, min_length=5, max_length=500)
     date = db.StringField(required=True)
-    imdb_id = db.StringField(required=True, min_length=9, max_length=9)
-    movie_title = db.StringField(required=True, min_length=1, max_length=100)
+    symbol = db.StringField(required=True, min_length=1, max_length=4)
+    # movie_title = db.StringField(required=True, min_length=1, max_length=100)

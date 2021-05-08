@@ -5,22 +5,27 @@
 <b>{{ error_msg }}</b>
 {% endif %}
 
-{% if movie %}
+{% if stock %}
 
-{# Display card for the movie details #}
+{# Display card for the stock details #}
 <div class="row">
   <div class="col">
     <div class="card text-center">
       <div class="card-header">
-        {{ movie.title }} ({{ movie.year }})
+        {{ stock.name }} ({{ stock.symbol }})
       </div>
       <div class="card-body">
-        <img src="{{ movie.poster_url }}" class="mr-3 movie" alt="alt text">
+        <img src="{{ stock.logo_url }}" class="mr-3 stock" alt="alt text">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>Directed by:</b> {{ movie.director }}</li>
-          <li class="list-group-item"><b>Actors:</b> {{ movie.actors }}</li>
-          <li class="list-group-item"><b>Genres:</b> {{ movie.genres }}</li>
-          <li class="list-group-item"><b>Awards:</b> {{ movie.awards }}</li>
+          <li class="list-group-item"><b>Sector: </b> {{ stock.sector }}</li>
+          <li class="list-group-item"><b>Industry: </b> {{ stock.industry }}</li>
+          <li class="list-group-item"><b>Market Cap: </b> {{ stock.market_cap }}</li>
+
+          <li class="list-group-item"><b>Open Price:</b> {{ stock.open }}</li>
+          <li class="list-group-item"><b>Regular Market High</b> {{ stock.regular_market_day_high }}</li>
+          <li class="list-group-item"><b>Regular Market Low</b> {{ stock.regular_market_day_low }}</li>
+          <li class="list-group-item"><b>Summary</b> {{ stock.long_business_summary }}</li>
+
         </ul>
       </div>
     </div>
@@ -38,7 +43,7 @@
           <span class="float-right">
             <small>{{ review.date }}</small>
           </span>
-          <a href="{{ url_for('movies.user_detail', username=review.commenter.username) }}">
+          <a href="{{ url_for('stocks.user_detail', username=review.commenter.username) }}">
             <strong>@{{ review.commenter.username }}</strong>
           </a>
           <p>
@@ -52,7 +57,7 @@
 </div>
 
 {% if current_user.is_authenticated %}
-{# Movie review submission form #}
+{# stock review submission form #}
 <div class="row">
   <div class="col">
     <form method="POST" action="">

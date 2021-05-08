@@ -32,17 +32,16 @@ def stock_detail(symbol):
             commenter=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
-            imdb_id=symbol,
-            movie_title=result.title,
+            symbol=symbol,
         )
         review.save()
 
         return redirect(request.path)
 
-    reviews = Review.objects(imdb_id=symbol)
+    reviews = Review.objects(symbol=symbol)
 
     return render_template(
-        "movie_detail.html", form=form, movie=result, reviews=reviews
+        "stock_detail.html", form=form, stock=result, reviews=reviews
     )
 
 

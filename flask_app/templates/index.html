@@ -1,9 +1,9 @@
 {% extends "header.html" %}
 {% block content %}
 
-<div class="row">
-    <div class="col">
-        <form action="/" class="form-inline my-2 my-lg-0" method="POST">
+<div class="row h-100">
+    <div class="col my-auto">
+        <form action="/" method="POST">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     {% for message in messages %}
@@ -15,7 +15,7 @@
             {% endwith %}
 
             {{ form.csrf_token }}
-            {{ form.search_query(class="form-control", placeholder="Search") }}
+            {{ form.search_query(class="form-control-lg", placeholder="Enter ticker here (e.g. GME)") }}
 
             {% if form.search_query.errors %}
             <div class="alert alert-warning" role="alert">
@@ -25,7 +25,13 @@
             </div>
             {% endif %}
 
-            {{ form.submit(class="btn btn-primary") }}
+            <div class="row my-auto">
+                <div class="col my-auto">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </div>
+            
+            
         </form>
     </div>
     

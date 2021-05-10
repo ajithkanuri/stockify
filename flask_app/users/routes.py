@@ -25,7 +25,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed, confirmed = False, code = num)
         user.save()
         msg = f'Hello, here is your validation code: {num}'
-        msg = Message(msg,sender="skillguy321@gmail.com", recipients=[form.email.data])
+        msg = Message(msg,sender="confirm.stockify.code@gmail.com", recipients=[form.email.data])
         mail.send(msg)
         print('a')
         return redirect(url_for("users.confirm"))

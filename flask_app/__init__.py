@@ -34,7 +34,7 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
+    app.config["MONGODB_HOST"] = "mongodb+srv://admin-user:Stockify1@stockify.q7nbg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:

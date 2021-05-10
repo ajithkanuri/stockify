@@ -70,3 +70,7 @@ class UpdateUsernameForm(FlaskForm):
             user = User.objects(username=username.data).first()
             if user is not None:
                 raise ValidationError("That username is already taken")
+class ConfirmForm(FlaskForm):
+    username = StringField("Username", validators=[InputRequired()])
+    code = IntegerField("Code", validators=[InputRequired()])
+    submit = SubmitField("Submit Code")

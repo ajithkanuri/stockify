@@ -11,6 +11,8 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 from flask_mail import Mail
+from flask_talisman import Talisman
+
 # stdlib
 from datetime import datetime
 import os
@@ -57,5 +59,17 @@ def create_app(test_config=None):
     app.register_error_handler(404, page_not_found)
 
     login_manager.login_view = "users.login"
+
+    csp = {
+        'default-src': [
+            '\'self\'',
+            '*.bootstrapcdn.com',
+            'bootswatch.com'
+        ],
+        'img-src': '*',
+        'script-src': '*'
+    }
+
+    Talisman(app, content_security_policy=csp)
 
     return app

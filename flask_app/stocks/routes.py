@@ -39,10 +39,10 @@ def stock_detail(symbol):
 
         return redirect(request.path)
 
-    # reviews = Review.objects(symbol=symbol)
+    reviews = Review.objects(symbol=symbol)
 
     return render_template(
-        "stock_detail.html", form=form, stock=result, reviews=[] #reviews
+        "stock_detail.html", form=form, stock=result, reviews=reviews
     )
 
 

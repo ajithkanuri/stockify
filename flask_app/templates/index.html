@@ -1,8 +1,11 @@
 {% extends "header.html" %}
 {% block content %}
 
-<div class="row h-100">
-    <div class="col my-auto">
+<div class="h-100 d-flex justify-content-center align-items-center">
+    <!-- <div class="col-md-8 mx-auto"> -->
+
+        <img src="{{ url_for('static', filename='stockify.png') }}" class="center" height=284></img>
+
         <form action="/" method="POST">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -33,7 +36,7 @@
             
             
         </form>
-    </div>
+    <!-- </div> -->
     
 </div>
 {% endblock %}

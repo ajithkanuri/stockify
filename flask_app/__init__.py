@@ -62,7 +62,9 @@ def create_app(test_config=None):
 
     csp = {
         'default-src': [
-            '\'self\''
+            '\'self\'',
+            '*.bootstrapcdn.com',
+            'bootswatch.com'
         ],
         'img-src': '*.clearbit.com',
         'script-src': [

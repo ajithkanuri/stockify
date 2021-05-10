@@ -34,6 +34,7 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
@@ -42,11 +43,9 @@ def create_app(test_config=None):
     app.config['MAIL_SERVER']='smtp.gmail.com'
     app.config["MAIL_USE_TLS"]= False
     app.config[ "MAIL_USE_SSL"]=True
-    # app.config['MAIL_PASSWORD'] = os.environ.get('Kanuri1!')
     app.config['MAIL_PASSWORD'] = "Stockify1!"
     app.config['MAIL_USERNAME'] = 'confirm.stockify.code@gmail.com'
     app.config['MAIL_PORT'] = 465 
-    # app.config['MAIL_SENDER'] = os.environ.get('skillguy321@gmail.com')
     # app.config['MAIL_PORT'] = os.environ.get('465')
     db.init_app(app)
     login_manager.init_app(app)

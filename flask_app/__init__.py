@@ -62,12 +62,13 @@ def create_app(test_config=None):
 
     csp = {
         'default-src': [
-            '\'self\'',
+            '\'self\''
+        ],
+        'img-src': '*.clearbit.com',
+        'script-src': [
             '*.bootstrapcdn.com',
             'bootswatch.com'
-        ],
-        'img-src': '*',
-        'script-src': '*'
+        ]
     }
 
     Talisman(app, content_security_policy=csp)

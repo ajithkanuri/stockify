@@ -66,7 +66,10 @@ def create_app(test_config=None):
             '*.bootstrapcdn.com',
             'bootswatch.com'
         ],
-        'img-src': '*.clearbit.com',
+        'img-src': [
+            '\'self\'',
+            '*.clearbit.com'
+        ],
         'script-src': [
             '*.bootstrapcdn.com',
             'bootswatch.com'

@@ -3,6 +3,8 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField
+import re
+
 from wtforms.validators import (
     InputRequired,
     DataRequired,
@@ -36,11 +38,18 @@ class RegistrationForm(FlaskForm):
         "Username", validators=[InputRequired(), Length(min=1, max=40)]
     )
     email = StringField("Email", validators=[InputRequired(), Email()])
-    password = PasswordField("Password", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired(), Length(min=9)])
     confirm_password = PasswordField(
         "Confirm Password", validators=[InputRequired(), EqualTo("password")]
     )
     submit = SubmitField("Sign Up")
+
+    def validate_password(self, password):
+        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+        if not password.data[0].isupper(): 
+            raise ValidationError("Password must start with capital")
+        elif regex.search(password.data) == None :
+            raise ValidationError("Password must contain special character.")
 
     def validate_username(self, username):
         user = User.objects(username=username.data).first()

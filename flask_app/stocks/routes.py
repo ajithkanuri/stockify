@@ -52,3 +52,7 @@ def user_detail(username):
     reviews = Review.objects(commenter=user)
 
     return render_template("user_detail.html", username=username, reviews=reviews)
+
+@stocks.route("/about")
+def about ():
+    return render_template("about.html")
